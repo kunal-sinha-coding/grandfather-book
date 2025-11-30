@@ -2,6 +2,7 @@
 Using LLM's to transcribe my grandfather's handwritten memoirs into text
 
 To install the requirements: run `pip install requirements.txt`
+
 To run the script: run `python3 extract_content.py`
 
 Optional command line flags:
