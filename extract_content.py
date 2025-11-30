@@ -11,6 +11,7 @@ from natsort import natsorted
 
 IMAGE_DIR = Path("images")
 TEXT_DIR = Path("text")
+OUTPUT_FILE = Path("all_output.txt")
 
 SYSTEM_PROMPT = """
 Extract the text content from this image.
@@ -26,12 +27,14 @@ openai_client = AsyncOpenAI(
 
 async def extract_content(pdf_path, model_name, image_dpi):
     save_pdf_to_jpegs(pdf_path, image_dpi)
-    total_cost = 0
+    all_output, total_cost = "", 0
     for image_path in tqdm(natsorted(IMAGE_DIR.glob("*.jpg")), desc="Extracting text from images"):
         extracted_output, cost = await extract_single_page(image_path, model_name)
         save_extracted_output(image_path, extracted_output)
+        all_output += f"\n\n{extracted_output}"
         total_cost += cost
         print(f"Total cost: ${total_cost}")
+    save_extracted_output(OUTPUT_FILE, all_output)
 
 async def extract_single_page(image_path, model_name):
     image_base64 = base64.b64encode(image_path.read_bytes()).decode("utf-8")
