@@ -1,0 +1,5 @@
+openai>=1.0.0
+python-dotenv>=1.0.0
+PyMuPDF>=1.21.1
+tqdm>=4.65.0
+natsort>=8.3.1
